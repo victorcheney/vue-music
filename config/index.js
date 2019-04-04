@@ -21,6 +21,13 @@ module.exports = {
           referer: 'https://c.y.qq.com/',
           host: 'c.y.qq.com'
         }
+      },
+      '/getSingerList': {
+        target: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+        pathRewrite: {
+          '^/getSingerList': ''
+        },
+        changeOrigin: true
       }
     },
 
