@@ -28,11 +28,22 @@ module.exports = {
           '^/getSingerList': ''
         },
         changeOrigin: true
+      },
+      '/getSingerDetail': {
+        target: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg',
+        pathRewrite: {
+          '^/getSingerDetail': ''
+        },
+        changeOrigin: true,
+        headers: {
+          referer: 'https://c.y.qq.com/',
+          host: 'c.y.qq.com'
+        }
       }
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '192.168.1.103', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

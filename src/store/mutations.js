@@ -1,4 +1,4 @@
-import * as types from './mutation-types'
+/* import * as types from './mutation-types'
 
 const mutations = {
   [types.SET_SINGER](state, singer) {
@@ -36,6 +36,17 @@ const mutations = {
   },
   [types.SET_FAVORITE_LIST](state, list) {
     state.favoriteList = list
+  }
+}
+
+export default mutations */
+
+import * as types from './mutation-types'
+
+const mutations = {
+  // 设置singer
+  [types.SET_SINGER](state, singer) {
+    state.singer = singer
   }
 }
 
