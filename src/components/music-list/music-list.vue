@@ -16,7 +16,7 @@
     <div class="bg-layer" ref="bgLayer"></div>
     <scroll @scroll="scroll" :listenScroll="listenScroll" :probeType="probeType" :data="songs" class="list" ref="list">
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list @select="selectItem" :songs="songs"></song-list>
       </div>
 
       <div v-show="!songs.length" class="loading-container">
@@ -30,6 +30,7 @@ import Scroll from 'base/scroll/scroll'
 import SongList from 'base/song-list/song-list'
 import Loading from 'base/loading/loading'
 import { prefixStyle } from 'common/js/dom'
+import { mapActions } from 'vuex'
 
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
@@ -75,7 +76,17 @@ export default {
     },
     back() {
       this.$router.back()
-    }
+    },
+    // 点击选中歌曲
+    selectItem(item, index) {
+      this.selectPlay({
+        list: this.songs,
+        index: index
+      })
+    },
+    ...mapActions([
+      'selectPlay'
+    ])
   },
   watch: {
     scrollY(newY) {

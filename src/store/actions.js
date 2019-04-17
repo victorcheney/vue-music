@@ -130,3 +130,14 @@
 // export const deleteFavoriteList = function ({commit}, song) {
 //   commit(types.SET_FAVORITE_LIST, deleteFavorite(song))
 // }
+
+import * as types from './mutation-types'
+
+// 选中歌曲进行播放
+export const selectPlay = function ({commit, state}, {list, index}) {
+  commit(types.SET_SEQUENCE_LIST, list) // 提交顺序播放列表
+  commit(types.SET_PLAYLIST, list) // 播放列表
+  commit(types.SET_CURRENT_INDEX, index) // 当前歌曲索引
+  commit(types.SET_FULL_SCREEN, true) // 是否全屏
+  commit(types.SET_PLAYING_STATE, true) // 播放状态
+}

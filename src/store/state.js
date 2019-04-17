@@ -18,8 +18,16 @@
 
 // export default state
 
+import { playMode } from 'common/js/config'
+
 const state = {
-  singer: {}
+  singer: {},
+  playing: false,
+  fullScreen: false,
+  playlist: [], // 播放列表
+  sequenceList: [], //
+  mode: playMode.sequence, // 播放模式
+  currentIndex: -1
 }
 
 export default state
