@@ -29,6 +29,15 @@
         </div>
 
         <div class="bottom">
+          <!-- 播放进度条 -->
+          <div class="progress-wrapper">
+            <span class="time time-l">{{format(currentTime)}}</span>
+            <div class="progress-bar-wrapper">
+              <progress-bar :percent="percent" :percentChange="onProgressBarChange"></progress-bar>
+            </div>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
+          </div>
+
           <div class="operators">
             <div class="icon i-left">
               <i class="icon-sequence"></i>
@@ -50,7 +59,7 @@
       </div>
     </transition>
 
-  <transition name="mini">
+    <transition name="mini">
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
           <img :class="cdCls" width="40" height="40" :src="currentSong.image" alt="">
@@ -68,7 +77,11 @@
       </div>
     </transition>
 
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error"></audio>
+    <audio ref="audio" :src="currentSong.url"
+      @canplay="ready"
+      @error="error"
+      @timeupdate="updateTime"
+    ></audio>
   </div>
 </template>
 
@@ -77,13 +90,15 @@ import { mapGetters, mapMutations } from 'vuex'
 import animations from 'create-keyframe-animation'
 import { prefixStyle } from 'common/js/dom'
 import { getVkey } from 'api/singer'
+import ProgressBar from 'base/progress-bar/progress-bar'
 
 const transform = prefixStyle('transform')
 
 export default {
   data() {
     return {
-      songReady: false
+      songReady: false,
+      currentTime: 0
     }
   },
   computed: {
@@ -98,6 +113,9 @@ export default {
     },
     disabledCls() {
       return this.songReady ? '' : 'disable'
+    },
+    percent() {
+      return this.currentTime / this.currentSong.duration
     },
     ...mapGetters(['fullScreen', 'playlist', 'currentSong', 'playing', 'currentIndex'])
   },
@@ -155,9 +173,9 @@ export default {
       this.setPlayingState(!this.playing)
     },
     next() {
-      /* if (!this.songReady) {
+      if (!this.songReady) {
         return
-      } */
+      }
       let index = this.currentIndex + 1
       if (index === this.playlist.length) {
         index = 0
@@ -171,9 +189,9 @@ export default {
       this.songReady = false
     },
     prev() {
-      /* if (!this.songReady) {
+      if (!this.songReady) {
         return
-      } */
+      }
       let index = this.currentIndex - 1
       if (index === -1) {
         index = this.playlist.length - 1
@@ -191,6 +209,29 @@ export default {
     },
     error() {
       this.songReady = true
+    },
+    updateTime(e) {
+      this.currentTime = e.target.currentTime
+    },
+    format(interval) {
+      interval = interval | 0
+      const minute = interval / 60 | 0
+      const second = this._pad(interval % 60)
+      return `${minute}:${second}`
+    },
+    onProgressBarChange(percent) {
+      this.$refs.audio.currentTime = percent * this.currentSong.duration
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+    },
+    _pad(num, n = 2) {
+      let len = num.toString().length
+      while (len < 2) {
+        num = '0' + num
+        len++
+      }
+      return num
     },
     _getPosAndScale() {
       const targetWidth = 40
@@ -220,12 +261,12 @@ export default {
       // 获取正在播放的歌曲vkey
       getVkey({songmid: newSong.songmid}).then((res) => {
         if (res.code === 0 && res.req && res.req.data) {
-          const keepalivefile = res.req.data.keepalivefile
+          const keepalivefile = res.req.data.testfilewifi
           const url = `http://dl.stream.qqmusic.qq.com/${keepalivefile}`
           this.setCurrentPlayUrl({index: this.currentIndex, url: url})
 
           this.$nextTick(() => {
-            // this.$refs.audio.play()
+            this.$refs.audio.play()
           })
         }
       })
@@ -233,9 +274,12 @@ export default {
     playing(newPlaying) {
       // const audio = this.$refs.audio
       this.$nextTick(() => {
-        // newPlaying ? this.$refs.audio.play() : this.$refs.audio.pause()
+        newPlaying ? this.$refs.audio.play() : this.$refs.audio.pause()
       })
     }
+  },
+  components: {
+    ProgressBar
   }
 }
 </script>
