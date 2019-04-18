@@ -259,10 +259,11 @@ export default {
   watch: {
     currentSong(newSong) {
       // 获取正在播放的歌曲vkey
-      getVkey({songmid: newSong.songmid}).then((res) => {
-        if (res.code === 0 && res.req && res.req.data) {
-          const keepalivefile = res.req.data.testfilewifi
-          const url = `http://dl.stream.qqmusic.qq.com/${keepalivefile}`
+      getVkey({songmid: newSong.mid}).then((res) => {
+        if (res.code === 0 && res.req_0 && res.req_0.data) {
+          const { purl} = res.req_0.data.midurlinfo[0]
+          const sip = res.req_0.data.sip
+          const url = `${sip[0]}${purl}`
           this.setCurrentPlayUrl({index: this.currentIndex, url: url})
 
           this.$nextTick(() => {
