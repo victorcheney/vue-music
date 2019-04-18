@@ -39,6 +39,17 @@ module.exports = {
           referer: 'https://c.y.qq.com/',
           host: 'c.y.qq.com'
         }
+      },
+      '/getVkey': {
+        target: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+        pathRewrite: {
+          '^/getVkey': ''
+        },
+        changeOrigin: true,
+        headers: {
+          referer: 'https://y.qq.com/portal/player.html',
+          origin: 'https://y.qq.com'
+        }
       }
     },
 

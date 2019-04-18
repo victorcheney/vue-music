@@ -79,6 +79,7 @@ export default {
     },
     // 点击选中歌曲
     selectItem(item, index) {
+      // 选中播放歌曲，修改播放器state状态
       this.selectPlay({
         list: this.songs,
         index: index
