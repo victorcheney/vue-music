@@ -35,9 +35,8 @@ export default {
     _getSingerList() {
       getSingerList().then((res) => {
         if (res.code === ERR_OK) {
-          this.singerList = res.singerList
-          this.singers = this._normalizeSinger(this.singerList.data.singerlist)
-          this.tags = this.singerList.data.tags
+          this.singerList = res.data.list
+          this.singers = this._normalizeSinger(this.singerList)
         }
       })
     },
@@ -50,11 +49,9 @@ export default {
         }
       }
 
-      let keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-
-      keys.map(item => {
-        map[item] = {
-          title: item,
+      list.map(item => {
+        map[item.Findex] = {
+          title: item.Findex,
           items: []
         }
       })
@@ -62,19 +59,17 @@ export default {
       list.forEach((item, index) => {
         if (index < HOT_SINGER_LEN) {
           map.hot.items.push(new Singer({
-            id: item.singer_mid,
-            name: item.singer_name,
-            pic: item.singer_pic
+            id: item.Fsinger_mid,
+            name: item.Fsinger_name,
+            pic: `//y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
           }))
         }
 
-        keys.forEach(k => {
-          map[k].items.push(new Singer({
-            id: item.singer_mid,
-            name: item.singer_name,
-            pic: item.singer_pic
-          }))
-        })
+        map[item.Findex].items.push(new Singer({
+          id: item.Fsinger_mid,
+          name: item.Fsinger_name,
+          pic: `//y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
+        }))
       })
 
       let hot = []

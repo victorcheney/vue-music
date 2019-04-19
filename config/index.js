@@ -22,8 +22,15 @@ module.exports = {
           host: 'c.y.qq.com'
         }
       },
-      '/getSingerList': {
+      /* '/getSingerList': {
         target: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+        pathRewrite: {
+          '^/getSingerList': ''
+        },
+        changeOrigin: true
+      }, */
+      '/getSingerList': {
+        target: 'https://c.y.qq.com/v8/fcg-bin/v8.fcg',
         pathRewrite: {
           '^/getSingerList': ''
         },
@@ -65,7 +72,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '192.168.2.188', // can be overwritten by process.env.HOST
+    host: '192.168.1.103', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

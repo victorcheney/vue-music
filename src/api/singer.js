@@ -5,8 +5,9 @@ import axios from 'axios'
 export function getSingerList() {
   const url = '/getSingerList'
 
-  const data = Object.assign({}, commonParams, {
-    '-': 'getUCGI3961350960561656',
+  /* const data = Object.assign({}, commonParams, {
+    // '-': 'getUCGI3961350960561656',
+    '-': 'getUCGI47324136185420684',
     'g_tk': 5381,
     'loginUin': 0,
     'hostUin': 0,
@@ -17,6 +18,21 @@ export function getSingerList() {
     'platform': 'yqq.json',
     'needNewCode': 0,
     'data': '{"comm":{"ct":24,"cv":0},"singerList":{"module":"Music.SingerListServer","method":"get_singer_list","param":{"area":-100,"sex":-100,"genre":-100,"index":-100,"sin":0,"cur_page":1}}}'
+  }) */
+  const data = Object.assign({}, commonParams, {
+    'g_tk': 1928093487,
+    'hostUin': 0,
+    channel: 'singer',
+    'format': 'json',
+    'inCharset': 'utf8',
+    'outCharset': 'utf-8',
+    'notice': 0,
+    'platform': 'yqq',
+    'needNewCode': 0,
+    'page': 'list',
+    'key': 'all_all_all',
+    'pagesize': 100,
+    'pagenum': 1
   })
 
   return axios.get(url, {

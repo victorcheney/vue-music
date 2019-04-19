@@ -222,7 +222,7 @@ export default {
       if (!this.songReady) {
         return
       }
-      if(this.playlist.length === 1) {
+      if (this.playlist.length === 1) {
         this.loop()
       } else {
         let index = this.currentIndex + 1
@@ -242,7 +242,7 @@ export default {
       if (!this.songReady) {
         return
       }
-      if(this.playlist.length === 1) {
+      if (this.playlist.length === 1) {
         this.loop()
       } else {
         let index = this.currentIndex - 1
@@ -337,7 +337,7 @@ export default {
       this.playingLyric = txt
       // 控制歌词位置
       if (lineNum > 5) {
-        let lineEl = this.$refs.lyricLine[lineNum -5 ]
+        let lineEl = this.$refs.lyricLine[lineNum - 5]
         this.$refs.lyricList.scrollToElement(lineEl, 1000)
       } else {
         this.$refs.lyricList.scrollTo(0, 0, 1000)
@@ -365,7 +365,7 @@ export default {
       const offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + deltaX))
       this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
       // vue组件不能直接使用$refs操作，需要用 $el
-      this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)` 
+      this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
       this.$refs.lyricList.$el.style[transitionDuration] = 0
       this.$refs.middleL.style.opacity = 1 - this.touch.percent
       this.$refs.middleL.style[transitionDuration] = 0
