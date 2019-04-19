@@ -33,7 +33,7 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
-              <progress-bar :percent="percent" :percentChange="onProgressBarChange"></progress-bar>
+              <progress-bar :percent="percent" @percentChange="onProgressBarChange"></progress-bar>
             </div>
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
@@ -69,7 +69,9 @@
           <p class="desc" v-html="currentSong.singer"></p>
         </div>
         <div class="control">
-          <i @click.stop="togglePlaying" :class="niniIcon"></i>
+          <progress-circle :radius="32" :percent="percent">
+            <i class="icon-mini" @click.stop="togglePlaying" :class="niniIcon"></i>
+          </progress-circle>
         </div>
         <div class="control">
           <i class="icon-playlist"></i>
@@ -91,6 +93,7 @@ import animations from 'create-keyframe-animation'
 import { prefixStyle } from 'common/js/dom'
 import { getVkey } from 'api/singer'
 import ProgressBar from 'base/progress-bar/progress-bar'
+import ProgressCircle from 'base/progress-circle/progress-circle'
 
 const transform = prefixStyle('transform')
 
@@ -261,7 +264,7 @@ export default {
       // 获取正在播放的歌曲vkey
       getVkey({songmid: newSong.mid}).then((res) => {
         if (res.code === 0 && res.req_0 && res.req_0.data) {
-          const { purl} = res.req_0.data.midurlinfo[0]
+          const {purl} = res.req_0.data.midurlinfo[0]
           const sip = res.req_0.data.sip
           const url = `${sip[0]}${purl}`
           this.setCurrentPlayUrl({index: this.currentIndex, url: url})
@@ -280,7 +283,8 @@ export default {
     }
   },
   components: {
-    ProgressBar
+    ProgressBar,
+    ProgressCircle
   }
 }
 </script>
