@@ -132,12 +132,35 @@
 // }
 
 import * as types from './mutation-types'
+import { playMode } from 'common/js/config'
+import { shuffle } from '../common/js/util'
+
+function findIndex(list, song) {
+  return list.findIndex((item) => {
+    return item.id === song.id
+  })
+}
 
 // 选中歌曲进行播放
 export const selectPlay = function ({commit, state}, {list, index}) {
   commit(types.SET_SEQUENCE_LIST, list) // 提交顺序播放列表
-  commit(types.SET_PLAYLIST, list) // 播放列表
+  if (state.mode === playMode.random) {
+    let randomList = shuffle(list)
+    commit(types.SET_PLAYLIST, randomList) // 播放列表
+    index = findIndex(randomList, list[index])
+  } else {
+    commit(types.SET_PLAYLIST, list) // 播放列表
+  }
   commit(types.SET_CURRENT_INDEX, index) // 当前歌曲索引
+  commit(types.SET_FULL_SCREEN, true) // 是否全屏
+  commit(types.SET_PLAYING_STATE, true) // 播放状态
+}
+
+export const randomPlay = function({commit}, {list}) {
+  commit(types.SET_PLAY_MODE, playMode.random)
+  commit(types.SET_SEQUENCE_LIST, list)
+  let randomList = shuffle(list)
+  commit(types.SET_PLAYLIST, randomList) // 播放列表
   commit(types.SET_FULL_SCREEN, true) // 是否全屏
   commit(types.SET_PLAYING_STATE, true) // 播放状态
 }

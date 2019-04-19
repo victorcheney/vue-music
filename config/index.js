@@ -50,6 +50,17 @@ module.exports = {
           referer: 'https://y.qq.com/portal/player.html',
           origin: 'https://y.qq.com'
         }
+      },
+      '/lyric': {
+        target: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
+        pathRewrite: {
+          '^/lyric': ''
+        },
+        changeOrigin: true,
+        headers: {
+          referer: 'https://y.qq.com/portal/player.html',
+          origin: 'https://y.qq.com'
+        }
       }
     },
 
