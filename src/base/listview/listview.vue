@@ -101,6 +101,9 @@ export default {
     selectItem(item) {
       this.$emit('select', item)
     },
+    refresh() {
+      this.$refs.listview.refresh()
+    },
     _scrollTo(index) {
       // 边界处理
       if (!index && index !== 0) {
